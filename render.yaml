@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: video-composer-4k
+    env: docker
+    plan: standard
+    autoDeploy: true
+    dockerfilePath: ./Dockerfile
+    
+    envVars:
+      - key: PORT
+        value: 10000
+      
+      - key: UVICORN_WORKERS
+        value: "1"
+    
+    # Resource configuratie
+    healthCheckPath: /health
+    
+    # Disk ruimte voor tijdelijke bestanden (4K videos!)
+    disk:
+      name: temp-storage
+      mountPath: /tmp
+      sizeGB: 20
