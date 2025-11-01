@@ -1,32 +1,21 @@
 services:
   - type: web
     name: video-composer-api
+    runtime: docker
     env: docker
-    plan: standard  # or pro for better performance
-    autoDeploy: true
+    region: frankfurt
+    plan: standard  # of pro plus voor betere performance
     dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeploy: true
+    
+    # BELANGRIJK: Persistent disk voor video storage
+    disk:
+      name: video-composer-disk
+      mountPath: /data
+      sizeGB: 30  # Pas aan voor je needs
     
     envVars:
       - key: PORT
-        value: 10000
-      
-      - key: UVICORN_WORKERS
-        value: "1"
-    
-    # Health check configuration
-    healthCheckPath: /health
-    
-    # Disk storage for temp files (important for large videos!)
-    disk:
-      name: temp-storage
-      mountPath: /tmp
-      sizeGB: 30  # Adjust based on expected video sizes
-```
-
----
-
-# 🌐 API ENDPOINTS & CURL EXAMPLES
-
-## **BASE URL:**
-```
-https://your-app.onrender.com
+        value: "10000"
