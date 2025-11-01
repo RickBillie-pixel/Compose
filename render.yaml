@@ -1,8 +1,8 @@
 services:
   - type: web
-    name: video-composer-4k
+    name: video-composer-api
     env: docker
-    plan: standard
+    plan: standard  # or pro for better performance
     autoDeploy: true
     dockerfilePath: ./Dockerfile
     
@@ -13,11 +13,20 @@ services:
       - key: UVICORN_WORKERS
         value: "1"
     
-    # Resource configuratie
+    # Health check configuration
     healthCheckPath: /health
     
-    # Disk ruimte voor tijdelijke bestanden (4K videos!)
+    # Disk storage for temp files (important for large videos!)
     disk:
       name: temp-storage
       mountPath: /tmp
-      sizeGB: 20
+      sizeGB: 30  # Adjust based on expected video sizes
+```
+
+---
+
+# 🌐 API ENDPOINTS & CURL EXAMPLES
+
+## **BASE URL:**
+```
+https://your-app.onrender.com
